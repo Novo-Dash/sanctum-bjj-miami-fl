@@ -28,7 +28,7 @@ export function ImagePlaceholder({
           <circle cx="19" cy="21" r="3" fill="var(--color-placeholder-icon)" />
         </svg>
         <span className="text-sm font-semibold text-[var(--color-danger)] leading-tight">
-          [FOTO — CONFIRMAR]
+          [FOTO: CONFIRMAR]
         </span>
         <span className="text-xs text-[var(--color-text-muted)]">{label}</span>
       </div>

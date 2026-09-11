@@ -38,7 +38,7 @@ export function Success({ date, time, onFinish }: SuccessProps) {
 
       <p className="mt-3 max-w-sm text-[0.95rem] leading-relaxed text-[var(--color-text-secondary)]">
         You'll get a confirmation by email and text. Come 10 minutes early, wear comfortable
-        clothes — we'll take care of the rest.
+        clothes and we'll take care of the rest.
       </p>
 
       <a

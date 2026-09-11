@@ -27,4 +27,4 @@ export const scheduleSlots: ScheduleSlot[] = [
   },
 ]
 
-export const scheduleNote = '[CONFIRMAR — Contact us for our current schedule]'
+export const scheduleNote = '[CONFIRMAR: Contact us for our current schedule]'

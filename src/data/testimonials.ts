@@ -8,7 +8,7 @@ export const testimonials: Testimonial[] = [
     avatarColor: '#E91E63',
     rating: 5,
     timeAgo: '2 weeks ago',
-    text: "It's not only an academy, we are a family. My kids have grown so much since joining Sanctum — not just in Jiu-Jitsu, but in confidence and respect.",
+    text: "It's not only an academy, we are a family. My kids have grown so much since joining Sanctum, not just in Jiu-Jitsu, but in confidence and respect.",
   },
   {
     id: 'marina',

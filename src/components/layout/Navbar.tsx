@@ -49,7 +49,7 @@ export function Navbar({ onBookClick }: NavbarProps) {
         <a
           href="#main-content"
           className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] rounded-sm"
-          aria-label="Sanctum Jiu Jitsu Academy — back to top"
+          aria-label="Sanctum Jiu Jitsu Academy, back to top"
         >
           <img
             src="/imagem/foto 2.webp"

@@ -29,7 +29,7 @@ export function OurSchedule() {
       {hasPendingData ? (
         <div className="mx-auto max-w-lg rounded-[var(--radius-card)] border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface-alt)] p-12 text-center">
           <p className="mb-3 text-sm font-bold text-[var(--color-danger)]">
-            [HORÁRIOS — CONFIRMAR]
+            [HORÁRIOS: CONFIRMAR]
           </p>
           <p className="mb-1 text-sm text-[var(--color-text-secondary)]">
             {scheduleNote}

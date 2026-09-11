@@ -44,7 +44,7 @@ export function Hero({ onBookClick, className }: HeroProps) {
   return (
     <section
       id="main-content"
-      aria-label="Hero — Start your BJJ journey"
+      aria-label="Hero: Start your BJJ journey"
       className={cn(
         'relative min-h-screen flex items-center overflow-hidden bg-[var(--color-bg)] pt-[68px]',
         className
