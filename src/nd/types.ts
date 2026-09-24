@@ -41,7 +41,7 @@ export type Client = {
     showDuration?: boolean
     /** GHL calendar id -> display label or hidden. Webhooks always carry the raw GHL name. */
     /** note: shown on the time step for that class (e.g. "The 6:00 PM class runs 1h30"). */
-    programOverrides: Record<string, { label?: string; hide?: boolean; note?: string }>
+    programOverrides: Record<string, { label?: string; hide?: boolean; note?: string; paid?: boolean }>
     /** "calendarId|HH:MM" of classes the academy retired while GHL catches up. */
     retiredSlots: string[]
   }

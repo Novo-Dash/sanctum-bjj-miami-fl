@@ -76,6 +76,9 @@ async function load(): Promise<Program[]> {
 /** The academy's note for one class, shown on the time step. */
 export const noteOf = (p: Program | null) => (p ? programOverrides[p.calendar_id]?.note ?? null : null)
 
+/** A paid class the academy also books here (drop-in): its texts never say "free". */
+export const isPaid = (p: Program | null) => Boolean(p && programOverrides[p.calendar_id]?.paid)
+
 /** A class the academy marked "Waitlist" in its name: the lead goes in, no booking is offered. */
 export const isWaitlist = (p: Program | null) => Boolean(p && /waitlist/i.test(p.name))
 

@@ -4,7 +4,7 @@ import type { CSSProperties, FormEvent, InputHTMLAttributes, ReactNode } from 'r
 import { captureAttribution, formatPhone, prefillFromUrl, toE164 } from './attribution'
 import { client, copy, type Copy } from './config'
 import {
-  dateKey, fetchPrograms, groupPrograms, isWaitlist, longDate, noteOf, optionHint, parseKey, shortName, timeLabel, type Program,
+  dateKey, fetchPrograms, groupPrograms, isPaid, isWaitlist, longDate, noteOf, optionHint, parseKey, shortName, timeLabel, type Program,
 } from './programs'
 import { adsConversion, fbTrack, gaTrack, identify } from './tracking'
 import type { Audience } from './types'
@@ -376,7 +376,7 @@ function Step2({
   return (
     <div className="nd-stack">
       <Head step={2} title={live ? 'Pick your time' : 'Confirm your request'}
-        text={program ? <>Free trial class · <strong>{shortName(program)}</strong></> : null}
+        text={program ? <>{isPaid(program) ? null : 'Free trial class · '}<strong>{shortName(program)}</strong></> : null}
         back={<button type="button" onClick={onBack} className="nd-link">‹ Back</button>} />
       {noteOf(program) ? <p className="nd-note">{noteOf(program)}</p> : null}
       {live && program ? (
@@ -403,7 +403,7 @@ function Step2({
         </p>
       )}
       <button type="button" disabled={!canConfirm} onClick={onConfirm} className="nd-button">
-        {copy.confirm} <Icon d="M5 12h14M13 6l6 6-6 6" size={18} />
+        {isPaid(program) ? 'Confirm my class' : copy.confirm} <Icon d="M5 12h14M13 6l6 6-6 6" size={18} />
       </button>
     </div>
   )
