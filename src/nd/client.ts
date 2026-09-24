@@ -6,8 +6,8 @@ export default {
     "phone": "(786) 722-6008",
     "address": "12750 NW 17th St Unit 108, Miami, FL 33182",
     "mapsUrl": "https://maps.app.goo.gl/exKEsQ7as1skFAUw7",
-    "logo": "/imagem/foto 2.webp",
-    "photo": "/imagens/gallery/1.webp"
+    "logo": "/imagem/logo-sanctum.webp",
+    "photo": "/imagens/bts/hero-a.webp"
   },
   "ghl": {
     "locationId": "BLAGlS1z3mbc5amsNB1q",
