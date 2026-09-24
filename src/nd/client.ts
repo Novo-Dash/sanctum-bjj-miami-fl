@@ -7,7 +7,7 @@ export default {
     "address": "12750 NW 17th St Unit 108, Miami, FL 33182",
     "mapsUrl": "https://maps.app.goo.gl/exKEsQ7as1skFAUw7",
     "logo": "/imagem/logo-sanctum.webp",
-    "photo": "/imagens/bts/hero-a.webp"
+    "photo": "/imagem/foto 1.webp"
   },
   "ghl": {
     "locationId": "BLAGlS1z3mbc5amsNB1q",
