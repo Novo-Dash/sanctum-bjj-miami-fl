@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { BookingModal } from '@/booking/booking-modal'
-import { BookingProvider } from '@/booking/booking-provider'
+import { BookingProvider } from '@/nd'
 import { CommonQuestions } from './components/CommonQuestions'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
@@ -22,7 +21,10 @@ export function BackToSchoolPage() {
   }, [])
 
   return (
-    <BookingProvider>
+    // Same webhooks, calendars and payload as the main site. Only the source
+    // label and the offered programs differ: this campaign is written for
+    // parents, so it books the kids calendars.
+    <BookingProvider source="Landing Page - Back to School" audience="kids">
       <div ref={root} className="bg-paper">
         <Header />
 
@@ -40,7 +42,6 @@ export function BackToSchoolPage() {
         </main>
 
         <SiteFooter />
-        <BookingModal />
       </div>
     </BookingProvider>
   )

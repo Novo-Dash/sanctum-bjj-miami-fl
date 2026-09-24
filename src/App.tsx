@@ -13,10 +13,8 @@ import {
   StickyCTABar,
 } from '@/components/sections'
 import UxModeWrapper from '@/components/UxModeWrapper'
-import { BookingProvider, useBooking } from '@/booking/booking-provider'
-import { BookingModal } from '@/booking/booking-modal'
-import { BookPage } from '@/pages/book'
-import { useScrollDepth } from '@/hooks/useScrollDepth'
+import { useBooking } from '@/booking/booking-provider'
+import { BookingProvider, BookPage } from '@/nd'
 import type { UxTokens } from '@/components/UxModeWrapper'
 
 const SANCTUM_TOKENS: UxTokens = {
@@ -49,7 +47,6 @@ const SANCTUM_TOKENS: UxTokens = {
 
 function LandingPage() {
   const { openModal } = useBooking()
-  useScrollDepth()
 
   return (
     <div className="grain">
@@ -69,7 +66,6 @@ function LandingPage() {
 
       <Footer />
 
-      <BookingModal />
       <StickyCTABar onBookClick={openModal} />
     </div>
   )
@@ -78,8 +74,8 @@ function LandingPage() {
 export default function App() {
   const path = window.location.pathname
 
-  // Standalone booking page — same <BookingForm />, no nav (spec §4.1). The
-  // vercel.json SPA rewrite serves index.html for /book in production.
+  // Standalone booking page: the kit's BookPage, no nav. The vercel.json SPA
+  // rewrite serves index.html for /book in production.
   if (path === '/book') {
     return <BookPage />
   }

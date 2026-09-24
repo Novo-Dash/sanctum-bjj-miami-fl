@@ -74,10 +74,10 @@
   --radius-card: 14px;
 }
 
-/* ─── Tokens the shared booking module reads ────────────────────────────────
-   booking/* is imported by both documents and styles itself from the main
-   site's variable names. Re-pointing them here (this document only) makes the
-   modal land in the campaign's palette without touching the home page. */
+/* ─── Tokens under the main site's variable names ───────────────────────────
+   The booking modal (src/nd, the Novo Dash kit) is shared by both documents;
+   the .nd rule at the end of this file points it at these, so it lands in the
+   campaign's palette without touching the home page. */
 :root {
   color-scheme: light;
 
@@ -700,4 +700,23 @@ body {
   border: 1.5px solid var(--color-ink);
   opacity: 0;
   pointer-events: none;
+}
+
+/* ─── Novo Dash booking kit (src/nd) ────────────────────────────────────────
+   This document only: the modal lands in the campaign's palette and faces. */
+.nd {
+  --nd-accent: var(--color-accent);
+  --nd-panel: #0e1b3d;
+  --nd-ink: var(--color-text);
+  --nd-muted: var(--color-text-secondary);
+  --nd-bg: var(--color-bg);
+  --nd-surface: var(--color-bg-subtle);
+  --nd-line: var(--color-border);
+  --nd-error: var(--color-danger);
+  --nd-font: var(--font-body);
+  --nd-font-display: var(--font-display);
+  --nd-display-case: uppercase;
+  --nd-display-weight: 700;
+  --nd-radius: var(--radius-card);
+  --nd-dialog-radius: var(--radius-lg);
 }

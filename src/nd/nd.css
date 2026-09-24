@@ -1,0 +1,216 @@
+/* Novo Dash booking kit. Identical in every LP: the page sets these variables (its .nd rule wins:
+   the defaults below have zero specificity) and the funnel takes its brand from them. */
+:where(.nd) {
+  --nd-accent: #111111;
+  --nd-accent-ink: #ffffff;
+  --nd-ink: #141414;
+  --nd-muted: #5b5b5b;
+  --nd-bg: #ffffff;
+  --nd-surface: #f4f4f4;
+  --nd-line: #e0e0e0;
+  --nd-error: #b42318;
+  --nd-radius: 12px;
+  --nd-button-radius: 999px;
+  --nd-dialog-radius: 24px;
+  --nd-font: inherit;
+  --nd-font-display: inherit;
+  --nd-display-case: none;
+  --nd-display-weight: 700;
+  --nd-panel: #111111;
+  --nd-panel-ink: #ffffff;
+  --nd-logo-filter: none;
+  font-family: var(--nd-font);
+  color: var(--nd-ink);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.nd *, .nd *::before, .nd *::after { box-sizing: border-box; }
+/* no line ends with a lone word (text-wrap-style only: text-wrap would reset nowrap) */
+:where(.nd) :where(p, li, legend, label) { text-wrap-style: pretty; }
+.nd-title, .nd-panel-title, .nd-panel-text { text-wrap-style: balance; }
+.nd a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+:where(.nd ul) { margin: 0; padding: 0; list-style: none; }
+
+/* shell: modal and /book share it */
+.nd-overlay {
+  position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center;
+  padding: 12px; background: rgb(0 0 0 / 0.6); backdrop-filter: blur(4px); overflow-y: auto;
+}
+.nd-dialog {
+  position: relative; display: flex; flex-direction: column; width: 100%; max-width: 940px; max-height: calc(100dvh - 24px);
+  background: var(--nd-bg); border-radius: min(var(--nd-dialog-radius), 20px); overflow: hidden; outline: none; box-shadow: 0 32px 80px rgb(0 0 0 / 0.35);
+}
+.nd-close {
+  position: absolute; top: 14px; right: 14px; z-index: 2; display: grid; place-items: center; width: 40px; height: 40px;
+  border: 0; border-radius: 999px; background: rgb(255 255 255 / 0.92); color: #141414; cursor: pointer;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
+}
+.nd-scroll { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 24px 20px 28px; }
+.nd-page { min-height: 100dvh; display: flex; align-items: flex-start; justify-content: center; padding: 16px; background: var(--nd-surface); }
+.nd-dialog.is-page { max-height: none; box-shadow: 0 24px 64px rgb(0 0 0 / 0.12); }
+.is-page .nd-scroll { overflow: visible; }
+@media (min-width: 640px) {
+  .nd-overlay { padding: 24px; }
+  .nd-dialog { max-height: 90dvh; border-radius: var(--nd-dialog-radius); }
+  .nd-scroll { padding: 32px 36px 36px; }
+  .nd-page { align-items: center; padding: 40px 24px; }
+}
+
+/* brand panel: compact header on phones, full column from 768px */
+.nd-panel {
+  position: relative; flex-shrink: 0; display: flex; flex-direction: column; padding: 20px 64px 20px 20px;
+  color: var(--nd-panel-ink);
+  /* flat panel-colour veil over the photo: no glow, no fade */
+  background:
+    linear-gradient(color-mix(in srgb, var(--nd-panel) 84%, transparent), color-mix(in srgb, var(--nd-panel) 84%, transparent)),
+    var(--nd-photo, none) center / cover no-repeat,
+    var(--nd-panel);
+}
+.nd-logo { display: block; height: 36px; width: auto; max-width: 160px; object-fit: contain; object-position: left; filter: var(--nd-logo-filter); }
+.nd-wordmark { margin: 0; font-family: var(--nd-font-display); font-weight: var(--nd-display-weight); text-transform: uppercase; letter-spacing: 0.08em; font-size: 20px; line-height: 1; }
+.nd-eyebrow {
+  display: flex; align-items: center; gap: 8px; margin: 14px 0 0;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.7;
+}
+.nd-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 999px; background: var(--nd-accent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--nd-panel-ink) 45%, transparent); }
+.nd-panel-title {
+  margin: 6px 0 0; font-family: var(--nd-font-display); font-weight: var(--nd-display-weight);
+  text-transform: var(--nd-display-case); font-size: 22px; line-height: 1.08;
+}
+.nd-panel-text { margin: 0; }
+.nd-panel-text, .nd-bullets, .nd-panel-foot { display: none; }
+@media (min-width: 768px) {
+  .nd-dialog { flex-direction: row; }
+  .nd-panel { width: 350px; justify-content: space-between; gap: 32px; padding: 36px 32px 32px; }
+  .nd-logo { height: 52px; max-width: 200px; }
+  .nd-wordmark { margin: 0; font-size: 28px; }
+  .nd-eyebrow { margin-top: 36px; }
+  .nd-panel-title { margin-top: 12px; font-size: clamp(30px, 3.2vw, 38px); line-height: 1.02; }
+  .nd-panel-text { display: block; margin-top: 14px; max-width: 30ch; font-size: 14px; opacity: 0.72; }
+  .nd-bullets { display: grid; gap: 11px; margin-top: 26px; }
+  .nd-panel-foot { display: grid; gap: 4px; padding-top: 18px; border-top: 1px solid color-mix(in srgb, var(--nd-panel-ink) 16%, transparent); }
+}
+.nd-bullets li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.35; opacity: 0.9; }
+.nd-tick {
+  display: grid; place-items: center; flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px;
+  border-radius: 999px; background: var(--nd-accent); color: var(--nd-accent-ink);
+  /* keeps the circle visible when the brand's accent is the panel colour (monochrome brands) */
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--nd-panel-ink) 30%, transparent);
+}
+.nd-proof { margin: 0 0 6px; font-size: 13px; font-weight: 500; }
+.nd-proof span { color: #fbbc04; letter-spacing: 0.08em; }
+.nd-panel-name { margin: 0; font-size: 13px; font-weight: 600; }
+/* one line always: fitLine() in Booking.tsx shrinks the font to fit */
+.nd-panel-address { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; opacity: 0.6; }
+
+/* form column */
+.nd-stack { display: grid; gap: 22px; }
+.nd-stack-sm { display: grid; gap: 14px; border: 0; margin: 0; padding: 0; min-width: 0; }
+.nd-stack-xs { display: grid; gap: 8px; border: 0; margin: 0; padding: 0; min-width: 0; }
+.nd-row { display: grid; gap: 14px; }
+@media (min-width: 560px) { .nd-row { grid-template-columns: 1fr 1fr; } }
+
+.nd-head { display: grid; gap: 6px; }
+.nd-progress { display: flex; gap: 6px; margin-bottom: 10px; }
+.nd-overlay .nd-progress { margin-right: 44px; }
+@media (max-width: 767px) { .nd-overlay .nd-progress { margin-right: 0; } }
+.nd-progress span { flex: 1; height: 4px; border-radius: 999px; background: var(--nd-line); transition: background 0.3s; }
+.nd-progress span.is-on { background: var(--nd-accent); }
+.nd-step {
+  display: flex; align-items: center; justify-content: space-between; margin: 0;
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--nd-muted);
+}
+.nd-title {
+  margin: 0; font-family: var(--nd-font-display); font-weight: var(--nd-display-weight); text-transform: var(--nd-display-case);
+  font-size: 24px; line-height: 1.1; color: var(--nd-ink);
+}
+@media (min-width: 640px) { .nd-title { font-size: 28px; } }
+.nd-muted { margin: 0; font-size: 14.5px; color: var(--nd-muted); }
+.nd-label {
+  margin: 0; padding: 0; font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--nd-ink) 72%, var(--nd-bg));
+}
+.nd-req { margin-left: 3px; color: var(--nd-accent); }
+.nd-hint { margin: 0; font-size: 13px; color: var(--nd-muted); }
+.nd-error { margin: 0; font-size: 13px; font-weight: 500; color: var(--nd-error); }
+.nd-foot { margin: 0; text-align: center; font-size: 12.5px; color: var(--nd-muted); }
+.nd-group { margin: 6px 0 0; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--nd-muted); }
+.nd-note { margin: 0; padding: 14px 16px; border: 1px solid var(--nd-line); border-radius: var(--nd-radius); background: var(--nd-surface); color: var(--nd-muted); font-size: 14px; }
+
+.nd-input {
+  width: 100%; min-height: 48px; padding: 12px 16px; border: 1px solid var(--nd-line); border-radius: var(--nd-radius);
+  background: var(--nd-surface); color: var(--nd-ink); font: inherit; transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.nd-input::placeholder { color: var(--nd-muted); opacity: 0.6; }
+.nd-input:focus { outline: none; background: var(--nd-bg); border-color: var(--nd-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--nd-accent) 18%, transparent); }
+.nd-input.is-error { border-color: var(--nd-error); }
+
+/* cards as wide as their name: one line while the row has room, wrapping only when it does not */
+.nd-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.nd-options > * { flex: 1 1 auto; }
+.nd-options > .nd-group { flex-basis: 100%; }
+.nd-option {
+  display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 10px 14px; cursor: pointer;
+  border: 1px solid var(--nd-line); border-radius: var(--nd-radius); background: var(--nd-bg); transition: border-color 0.15s, background 0.15s;
+}
+.nd-option:hover { border-color: color-mix(in srgb, var(--nd-accent) 45%, var(--nd-line)); }
+.nd-option.is-active { border-color: var(--nd-accent); background: color-mix(in srgb, var(--nd-accent) 7%, var(--nd-bg)); box-shadow: inset 0 0 0 1px var(--nd-accent); }
+.nd-option input { flex-shrink: 0; width: 16px; height: 16px; margin: 0; accent-color: var(--nd-accent); }
+.nd-option-title { display: block; font-size: 14.5px; font-weight: 600; line-height: 1.3; }
+.nd-option-hint { display: block; font-size: 13px; color: var(--nd-muted); }
+.nd-loading {
+  display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 96px;
+  border-radius: var(--nd-radius); background: var(--nd-surface); color: var(--nd-muted); font-size: 14px;
+}
+.nd-spinner {
+  width: 20px; height: 20px; border-radius: 999px; border: 2px solid var(--nd-line); border-top-color: var(--nd-accent);
+  animation: nd-spin 0.8s linear infinite;
+}
+@keyframes nd-spin { to { transform: rotate(360deg); } }
+
+.nd-button {
+  display: inline-flex; width: 100%; min-height: 54px; align-items: center; justify-content: center; gap: 8px;
+  border: 0; border-radius: var(--nd-button-radius); background: var(--nd-accent); color: var(--nd-accent-ink);
+  font: inherit; font-size: 15.5px; font-weight: 700; letter-spacing: 0.01em; cursor: pointer;
+  transition: filter 0.15s, transform 0.15s;
+}
+.nd-button:hover:not(:disabled) { filter: brightness(1.08); }
+.nd-button:active:not(:disabled) { transform: translateY(1px); }
+.nd-button:disabled { background: var(--nd-surface); color: var(--nd-muted); cursor: not-allowed; }
+/* "Book another child": the link style, centred under the main button */
+.nd-another { margin: 0 auto; }
+.nd-link {
+  margin-left: auto; padding: 4px 0; border: 0; background: none; color: var(--nd-ink); font: inherit;
+  font-size: 13px; font-weight: 600; letter-spacing: 0; text-transform: none; cursor: pointer;
+}
+
+.nd-calendar { padding: 12px 14px 14px; border: 1px solid var(--nd-line); border-radius: var(--nd-radius); user-select: none; }
+.nd-cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; font-weight: 700; font-size: 14.5px; }
+.nd-cal-head button { width: 36px; height: 36px; border: 0; border-radius: 999px; background: var(--nd-surface); color: var(--nd-ink); font-size: 18px; cursor: pointer; }
+.nd-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.nd-cal-dow { padding: 4px 0; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--nd-muted); }
+.nd-day {
+  justify-self: center; width: 38px; height: 38px; border: 0; border-radius: 999px; background: none;
+  color: var(--nd-ink); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.nd-day:not(:disabled) { background: color-mix(in srgb, var(--nd-accent) 9%, transparent); }
+.nd-day:disabled { font-weight: 400; color: var(--nd-muted); opacity: 0.4; cursor: not-allowed; }
+.nd-day:not(:disabled):hover { background: color-mix(in srgb, var(--nd-accent) 20%, transparent); }
+.nd-day.is-active, .nd-day.is-active:hover { background: var(--nd-accent); color: var(--nd-accent-ink); }
+.nd-times { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+.nd-time {
+  min-height: 44px; border: 1px solid var(--nd-line); border-radius: 999px; background: var(--nd-bg);
+  color: var(--nd-ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.nd-time:hover { border-color: var(--nd-accent); }
+.nd-time.is-active { border-color: var(--nd-accent); background: var(--nd-accent); color: var(--nd-accent-ink); }
+
+.nd-details { border: 1px solid var(--nd-line); border-radius: var(--nd-radius); background: var(--nd-surface); }
+.nd-details li { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; font-size: 14.5px; }
+.nd-details li + li { border-top: 1px solid var(--nd-line); }
+.nd-details svg { flex-shrink: 0; margin-top: 1px; color: var(--nd-accent); }
+.nd-tips { display: grid; gap: 6px; }
+.nd-tips li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--nd-muted); }
+.nd-tips li::before { content: ''; flex-shrink: 0; width: 6px; height: 6px; border-radius: 999px; background: var(--nd-accent); }
+
+@media (prefers-reduced-motion: reduce) { .nd-spinner { animation-duration: 2s; } .nd-button, .nd-progress span { transition: none; } }

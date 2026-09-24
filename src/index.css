@@ -226,3 +226,23 @@ h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
   scroll-snap-align: start;
   flex-shrink: 0;
 }
+
+/* ─── Novo Dash booking kit (src/nd) ───────────────────────────────
+   The funnel takes the page's brand from these. body is bold here, so the
+   kit's own weights start from regular. */
+.nd {
+  --nd-accent:         var(--color-accent);
+  --nd-panel:          #0D0D0D;
+  --nd-ink:            var(--color-text);
+  --nd-muted:          var(--color-text-secondary);
+  --nd-bg:             var(--color-bg);
+  --nd-surface:        var(--color-bg-subtle);
+  --nd-line:           var(--color-border);
+  --nd-error:          var(--color-danger);
+  --nd-font:           var(--font-body);
+  --nd-font-display:   var(--font-display);
+  --nd-display-case:   uppercase;
+  --nd-display-weight: 700;
+  --nd-dialog-radius:  var(--radius-lg);
+  font-weight: 400;
+}
