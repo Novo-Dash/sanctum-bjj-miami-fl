@@ -103,7 +103,7 @@ export function Footer() {
           <p>© {new Date().getFullYear()} All rights reserved.</p>
           <p>
             By{' '}
-            <span className="font-medium text-white/40">Novo Dash</span>
+            <a href="https://lp.novodash.com/site?utm_source=sanctum-bjj-miami-fl&utm_medium=referral&utm_campaign=lp-footer" target="_blank" rel="noopener" className="font-medium text-white/40">Novo Dash</a>
           </p>
         </div>
       </div>

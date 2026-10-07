@@ -122,7 +122,7 @@ export function SiteFooter() {
         <div className="mt-14 flex flex-col gap-2 border-t-2 border-on-ink/20 py-6 text-[0.8rem] text-on-ink-dim/70 sm:flex-row sm:items-center sm:justify-between">
           <p>{FOOTER.rights}</p>
           <p>
-            By <span className="font-medium text-on-ink-dim">{FOOTER.by}</span>
+            By <a href="https://lp.novodash.com/site?utm_source=sanctum-bjj-miami-fl&utm_medium=referral&utm_campaign=lp-footer" target="_blank" rel="noopener" className="font-medium text-on-ink-dim">{FOOTER.by}</a>
           </p>
         </div>
       </div>
