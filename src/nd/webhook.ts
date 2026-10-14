@@ -26,13 +26,20 @@ function post(url: string, payload: unknown) {
   }).catch(() => {})
 }
 
+/** Copy of Webhook 1 to n8n (lead saved in the Novo Dash app), even when the GHL inbound webhook fails. */
+const LP_LEAD_WEBHOOK = 'https://n8n.novodash.com/webhook/client-lp-lead'
+function postLead(url: string, locationId: string, payload: Record<string, unknown>) {
+  post(url, payload)
+  post(LP_LEAD_WEBHOOK, { ...payload, location_id: locationId })
+}
+
 /** Webhook 1: the lead, the moment someone leaves step 1. */
 export function sendLead(data: BookingData, program: Program | null, source: string, extra: Record<string, unknown> = {}) {
   if (isGhlReturnVisit()) return
   const [first = '', ...rest] = data.fullName.trim().split(/\s+/)
   const audience = program?.audience ?? data.preferredAudience
   const child = data.childName.trim()
-  post(LEAD_WEBHOOK, {
+  postLead(LEAD_WEBHOOK, client.ghl.locationId, {
     event: 'lead_captured',
     name: data.fullName.trim(),
     firstName: first,
