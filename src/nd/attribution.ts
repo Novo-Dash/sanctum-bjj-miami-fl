@@ -1,10 +1,14 @@
 const KEY = 'nd_attribution'
-const LANDING_KEY = 'nd_landing'
+const RETURN_KEY = 'nd_ghl_return'
+/** The gclid's own window. Safari cuts script storage at 7 days anyway. */
+const MAX_AGE_MS = 90 * 24 * 60 * 60 * 1000
 const LANDING_URL_MAX = 1000
 const PARAMS = [
   'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
   'fbclid', 'gclid', 'gad_source', 'wbraid', 'gbraid',
 ] as const
+/** Contact data GHL puts in its links to prefill the form: never stored. */
+const PREFILL = ['full_name', 'email', 'phone']
 
 function clean(value: string | null) {
   const v = value?.trim()
@@ -22,34 +26,48 @@ function fromUrl(): Record<string, string> {
 }
 
 function landingFromUrl(): Record<string, string> {
-  const out: Record<string, string> = { landing_url: window.location.href.slice(0, LANDING_URL_MAX) }
+  const url = new URL(window.location.href)
+  for (const key of PREFILL) url.searchParams.delete(key)
+  const out: Record<string, string> = { landing_url: url.href.slice(0, LANDING_URL_MAX) }
   const referrer = clean(document.referrer)
   if (referrer) out.landing_referrer = referrer
   return out
 }
 
-function read(key: string): Record<string, string> | null {
+/** A GHL link back to the site: the contact's data in the URL and no campaign. */
+function isGhlLink() {
+  const params = new URLSearchParams(window.location.search)
+  return PREFILL.some((k) => params.has(k)) && !PARAMS.some((k) => clean(params.get(k)))
+}
+
+function read(): Record<string, string> | null {
   try {
-    const stored = sessionStorage.getItem(key)
-    return stored ? (JSON.parse(stored) as Record<string, string>) : null
+    const stored = JSON.parse(localStorage.getItem(KEY) ?? 'null') as { at: number; data: Record<string, string> } | null
+    return stored && Date.now() - stored.at < MAX_AGE_MS ? stored.data : null
   } catch {
     return null
   }
 }
 
-/** First touch wins: the landing params and URL are stored once per session. */
+/**
+ * Last campaign touch wins, for 90 days, across tabs and visits: a URL with UTM or a
+ * click id replaces what is stored (params and landing together); a visit without
+ * them never erases it. The first visit is stored even without a campaign.
+ */
 export function captureAttribution() {
   try {
-    if (!sessionStorage.getItem(LANDING_KEY)) sessionStorage.setItem(LANDING_KEY, JSON.stringify(landingFromUrl()))
+    if (isGhlLink()) sessionStorage.setItem(RETURN_KEY, '1')
     const params = fromUrl()
-    if (!sessionStorage.getItem(KEY) && Object.keys(params).length) sessionStorage.setItem(KEY, JSON.stringify(params))
+    if (Object.keys(params).length || !read()) {
+      localStorage.setItem(KEY, JSON.stringify({ at: Date.now(), data: { ...params, ...landingFromUrl() } }))
+    }
   } catch {
     /* private mode: attribution is best effort */
   }
 }
 
 export function getAttribution(): Record<string, string> {
-  return { ...(read(KEY) ?? fromUrl()), ...(read(LANDING_KEY) ?? landingFromUrl()) }
+  return read() ?? { ...fromUrl(), ...landingFromUrl() }
 }
 
 const META_SOURCES = new Set(['facebook', 'fb', 'instagram', 'ig', 'meta'])
@@ -63,11 +81,18 @@ export function getSourceLabel(fallback: string): string {
   return fallback
 }
 
-/** A contact already in the CRM, back from a GHL link with no campaign: Webhook 1 would wipe its attribution. */
+/**
+ * A contact already in the CRM, back from a GHL link with no campaign: Webhook 1 would
+ * wipe its attribution and notify the academy again. Decided by this tab's arrival,
+ * never by the stored landing, which may be weeks old.
+ */
 export function isGhlReturnVisit(): boolean {
-  const a = getAttribution()
-  if (PARAMS.some((k) => a[k])) return false
-  return /[?&](full_name|email|phone)=/.test(a.landing_url ?? window.location.href)
+  try {
+    if (sessionStorage.getItem(RETURN_KEY)) return true
+  } catch {
+    /* storage blocked: the URL still tells */
+  }
+  return isGhlLink()
 }
 
 export function prefillFromUrl() {
