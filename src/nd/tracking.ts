@@ -6,7 +6,7 @@ import { client } from './config'
 
 type Params = Record<string, unknown>
 export type User = { name?: string; email?: string; phone?: string }
-type MetaEvent = 'ViewContent' | 'Lead' | 'Schedule'
+type MetaEvent = 'ViewContent' | 'Lead' | 'Schedule' | { custom: string }
 
 // Local view of the globals: LPs declare window.fbq / window.gtag their own way.
 const w = window as unknown as { fbq?: (...args: unknown[]) => void; gtag?: (...args: unknown[]) => void }
@@ -19,11 +19,13 @@ function cookie(name: string) {
 }
 
 /** Browser Pixel + Conversions API mirror with the same event_id, so Meta counts it once. */
-export function fbTrack(event: MetaEvent, params: Params = {}, user?: User) {
+export function fbTrack(ev: MetaEvent, params: Params = {}, user?: User) {
+  const custom = typeof ev !== 'string'
+  const event = custom ? ev.custom : ev
   if (!pixel) return
   const eventId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
   try {
-    w.fbq?.('track', event, params, { eventID: eventId })
+    w.fbq?.(custom ? 'trackCustom' : 'track', event, params, { eventID: eventId })
   } catch {
     /* never break the funnel */
   }

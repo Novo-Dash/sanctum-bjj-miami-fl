@@ -42,7 +42,12 @@ export function useBooking() {
 export function BookingProvider({ children, source, audience, copy: pageCopy, leadOnly, leadExtra }: { children: ReactNode } & Options) {
   const [options, setOptions] = useState<Options | null>(null)
   const open = useCallback(
-    (o?: Options) => setOptions({ source, audience, copy: pageCopy, leadOnly, leadExtra, ...o }),
+    (o?: Options) => {
+      // Every booking CTA (#book link or open() from a card) ends here, so this is the button click.
+      fbTrack({ custom: 'ClickButton' }, { content_name: 'Trial Booking' })
+      gaTrack('click_button', { content_name: 'Trial Booking' })
+      setOptions({ source, audience, copy: pageCopy, leadOnly, leadExtra, ...o })
+    },
     [source, audience, pageCopy, leadOnly, leadExtra],
   )
   const close = useCallback(() => setOptions(null), [])
