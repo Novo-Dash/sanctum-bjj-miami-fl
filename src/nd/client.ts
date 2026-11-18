@@ -38,7 +38,7 @@ export default {
     "ads": "AW-16871202843",
     "adsLeadLabel": "rc0BCIXi7tUcEJvA6Ow-",
     "adsBookedLabel": "Yiz0CIji7tUcEJvA6Ow-",
-    "clarity": ""
+    "clarity": "zfq6mfa1rm"
   },
   "booking": {
     "audience": null,
